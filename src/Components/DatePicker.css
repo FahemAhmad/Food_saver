@@ -1,0 +1,15 @@
+.react-datepicker__input-container {
+  display: flex !important;
+  justify-content: center;
+  padding: 10px;
+}
+
+.react-datepicker-ignore-onclickoutside {
+  padding: 10px;
+  background-color: #f9eee2;
+}
+
+input {
+  padding: 10px;
+  background-color: #f9eee2;
+}

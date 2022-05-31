@@ -11,6 +11,7 @@ function SelectField({
   error,
   touched,
   check,
+  next,
 }) {
   return (
     <>
@@ -20,13 +21,17 @@ function SelectField({
         onChange={handleChange}
         onBlur={handleBlur}
         style={{ display: "block" }}
-        check
+        next={next}
       >
         <Options value="" label={`Select a ${name}`}>
           Select your {name}{" "}
         </Options>
         {options?.map((op, index) => (
-          <Options key={index} value={op.value} label={op.value}>
+          <Options
+            key={index}
+            value={check ? op.CategoryID : op.value}
+            label={op.value}
+          >
             {check ? op.Name : op.value}
           </Options>
         ))}
@@ -39,7 +44,7 @@ function SelectField({
 export default SelectField;
 
 const Selection = styled.select`
-  margin: ${(props) => (props.check ? "0 0" : "0% 20%")};
+  margin: ${(props) => (props.next ? "0% 20%" : "0 0")};
   padding: 15px 10px;
   background-color: #f9eee2;
   border: none;

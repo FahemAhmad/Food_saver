@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function ProductDisplay({ title, image, expiry, category }) {
+function ProductDisplay({ title, image, expiry, category, isExp }) {
   return (
     <>
       <Container>
@@ -25,7 +25,7 @@ function ProductDisplay({ title, image, expiry, category }) {
               </Title>
               <Category>Category : {category}</Category>
               <Category>
-                Expiry : <DaysLeft>{expiry}</DaysLeft>
+                Expiry : <DaysLeft isExp={isExp}>{expiry}</DaysLeft>
               </Category>
             </div>
           </div>
@@ -82,6 +82,6 @@ const Category = styled.h2`
 `;
 
 const DaysLeft = styled.span`
-  color: ${(props) => (props.color ? "green" : "red")};
+  color: ${(props) => (props.isExp === null ? "green" : "red")};
 `;
 export default ProductDisplay;

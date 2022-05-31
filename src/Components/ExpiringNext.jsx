@@ -1,33 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const lists = [
-  {
-    name: "Eggs",
-    expiry: "3 days",
-  },
-  {
-    name: "Milk",
-    expiry: "5 days",
-  },
-  {
-    name: "Banana",
-    expiry: "2 days",
-  },
-  {
-    name: "Apple",
-    expiry: "10 days",
-  },
-];
-
-function ExpiringNext() {
+function ExpiringNext({ food }) {
   return (
     <>
       <Container>Expiring Next</Container>
       <Lists className="list">
-        {lists.map((item, index) => (
+        {food?.map((item, index) => (
           <ListItem key={index}>
-            {index + 1}. {item.name} <Days>{item.expiry}</Days>
+            {index + 1}. {item.Name}{" "}
+            <Days isExp={item.DaysRemaining < 5 ? true : false}>
+              {item.DaysRemaining} days
+            </Days>
           </ListItem>
         ))}
       </Lists>
@@ -61,5 +45,5 @@ const ListItem = styled.div`
 `;
 
 const Days = styled.span`
-  color: ${(props) => (props.color ? "green" : "red")};
+  color: ${(props) => (props.isExp ? "red" : "green")};
 `;

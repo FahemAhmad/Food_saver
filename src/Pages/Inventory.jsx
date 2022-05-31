@@ -22,60 +22,34 @@ const style = {
   p: 4,
 };
 
-const products = [
-  {
-    name: "Pizza",
-    category: "fridge",
-    image:
-      "https://images.unsplash.com/photo-1594007654729-407eedc4be65?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000",
-    expirydate: "5 days ",
-    notifyDate: "2 days",
-  },
-  {
-    name: "Meet",
-    category: "fridge",
-    image:
-      "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bWVhdHxlbnwwfHwwfHw%3D&w=1000",
-    expirydate: "5 days ",
-    notifyDate: "2 days",
-  },
-  {
-    name: "Burger",
-    category: "fridge",
-    image:
-      "https://media.istockphoto.com/photos/hamburger-picture-id174878700?b=1&k=20&m=174878700&s=170667a&w=0&h=eMOcnbhrSODSw97BbLPjLx1TSF6OX2Ve2H2yEDxXUAc=",
-    expirydate: "5 days ",
-    notifyDate: "2 days",
-  },
-  {
-    name: "Burger",
-    category: "fridge",
-    image:
-      "https://media.istockphoto.com/photos/hamburger-picture-id174878700?b=1&k=20&m=174878700&s=170667a&w=0&h=eMOcnbhrSODSw97BbLPjLx1TSF6OX2Ve2H2yEDxXUAc=",
-    expirydate: "5 days ",
-    notifyDate: "2 days",
-  },
-];
-
 function Inventory() {
+  const [loading, setLoading] = useState(true);
   const [openModal, setOpen] = useState(false);
   const [id, setId] = useState(
     JSON.parse(localStorage.getItem("user"))?.UserID
   );
-  const [food, setFood] = useState();
-  const [category, setCategory] = useState();
-  const [allCategories, setAllCategories] = useState([]);
 
+  const [name, setName] = useState("");
+  const [expDate, setExpiry] = useState("");
+  const [food, setFood] = useState();
+  const [category, setCategory] = useState("");
+  const [allCategories, setAllCategories] = useState([]);
+  const [allFood, setAllFood] = useState();
   const handleOpen = () => {
     setOpen(!openModal);
   };
 
+  const returnCatgeory = (id) => {
+    const res = allCategories.filter((cat) => cat.CategoryID === parseInt(id));
+
+    return res[0].Name;
+  };
+
   const getUserFoods = async () => {
-    console.log(id);
     await getfoodItem(id)
       .then((res) => {
-        console.log("Food", res.data);
-        setFood(res?.data);
+        setAllFood(res?.data?.Data?.data);
+        setFood(res?.data?.Data?.data);
       })
       .catch((err) => {
         ToastFailure(err.response.data?.messsage);
@@ -86,15 +60,81 @@ function Inventory() {
     await getCategoryItem()
       .then((res) => {
         setAllCategories(res.data.Data.data);
+        setLoading(false);
       })
       .catch((err) => {
         ToastFailure(err?.response.data?.messsage);
       });
   };
+
+  const completeSearch = () => {
+    if (category === "") {
+      if (name.length > 2 && expDate > 0) {
+        setFood(
+          allFood.filter(
+            (item) =>
+              item.Name.toLowerCase().includes(name) &&
+              item.DaysRemaining > expDate
+          )
+        );
+      } else if (name.length > 2 && expDate <= 2) {
+        setFood(
+          allFood.filter((item) => item.Name.toLowerCase().includes(name))
+        );
+      } else if (name.length <= 2 && expDate > 0) {
+        setFood(allFood.filter((item) => item.DaysRemaining > expDate));
+      } else setFood(allFood);
+    } else {
+      setName("");
+      setExpiry("");
+      setFood(allFood.filter((item) => item.CategoryID === category));
+    }
+  };
+
+  const searchByName = (query) => {
+    setCategory("");
+    setName(query.toLowerCase());
+  };
+
+  const searchByCategory = (query) => {
+    setCategory("");
+    setCategory(query.toLowerCase());
+  };
+
+  const searchByExpiry = (query) => {
+    if (query.length > 0) setExpiry(parseInt(query));
+    else setExpiry("");
+  };
+
+  const reRender = () => {
+    getUserFoods();
+  };
+
   useEffect(() => {
-    // getUserFoods();
+    setLoading(true);
+    getUserFoods();
     getAllCategories();
   }, []);
+
+  useEffect(() => {
+    completeSearch();
+  }, [name, category, expDate]);
+
+  if (loading)
+    return (
+      <div
+        style={{
+          backgroundColor: "#f9eee2",
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h2>Loading...</h2>
+      </div>
+    );
 
   return (
     <>
@@ -121,13 +161,22 @@ function Inventory() {
           <LeftSection>
             <Button onClick={handleOpen}>Add Food</Button>
             <SpaceApart>
-              <InputSection placeholder="Search by Name" />
-              <InputSection placeholder="Search by Expiration Date" />
+              <InputSection
+                placeholder="Search by Name"
+                value={name}
+                onChange={(e) => searchByName(e.target.value)}
+              />
+              <InputSection
+                placeholder="Search by Expiration Date"
+                value={expDate}
+                onChange={(e) => searchByExpiry(e.target.value)}
+              />
               <SelectField
                 name="Search by Category"
                 options={allCategories}
-                check
-                handleChange={(e) => setCategory(e.target.value)}
+                check={true}
+                next={false}
+                handleChange={(e) => searchByCategory(e.target.value)}
                 value={category}
                 error={false}
                 touched={false}
@@ -135,19 +184,20 @@ function Inventory() {
             </SpaceApart>
 
             <ProjectsContainer className="projectList">
-              {products.map((p, index) => (
+              {food?.map((p, index) => (
                 <ProductDisplay
                   key={index}
-                  image={p.image}
-                  title={p.name}
-                  category={p.category}
-                  expiry={p.expirydate}
+                  image={p.ImageSrc}
+                  title={p.Name}
+                  category={returnCatgeory(p.CategoryID)}
+                  expiry={p.ExpiryDate}
+                  isExp={p.IsExpired}
                 ></ProductDisplay>
               ))}
             </ProjectsContainer>
           </LeftSection>
           <RightSection>
-            <ExpiringNext />
+            <ExpiringNext food={allFood} />
           </RightSection>
         </Row2>
       </Container>
@@ -159,7 +209,11 @@ function Inventory() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddFood />
+          <AddFood
+            allCategories={allCategories}
+            reRender={reRender}
+            onClose={handleOpen}
+          />
         </Box>
       </Modal>
     </>
@@ -274,6 +328,6 @@ const ProjectsContainer = styled.div`
   overflow: scroll;
   max-height: 65vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 `;

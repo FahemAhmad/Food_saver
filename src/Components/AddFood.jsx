@@ -7,15 +7,19 @@ import { ToastFailure, ToastSuccess } from "../Components/Toast";
 import { useNavigate } from "react-router-dom";
 import DatepickerField from "./DatepickerField";
 import UploadImage from "./UploadImage";
+import format from "date-format";
+import SelectField from "./SelectField";
+import { createfoodItem } from "../Backend/apiCalls";
 
 const validationSchema = yup.object().shape({
   Name: yup.string().required().label("Name"),
   ExpiryDate: yup.string().required().label("Expiry Date"),
   NotifyDate: yup.string().required().label("Notifcation Date"),
   ImageSrc: yup.mixed().required(),
+  CategoryID: yup.number().required(),
 });
 
-function AddFood() {
+function AddFood({ allCategories, reRender, onClose }) {
   const navigate = useNavigate();
   return (
     <Formik
@@ -25,12 +29,36 @@ function AddFood() {
         ExpiryDate: "",
         NotifyDate: "",
         ImageSrc: "",
+        CategoryID: undefined,
       }}
       onSubmit={async (values, { resetForm }) => {
-        console.log(values);
+        let formData = new FormData();
+        formData.append("ImageSrc", values.ImageSrc);
+        const { UserID } = JSON.parse(localStorage.getItem("user"));
+        const expiry = format(values.ExpiryDate, "yyyy-mm-dd").split("T");
+        const notif = format(values.NotifyDate, "yyyy-mm-dd").split("T");
+        const Data = {
+          CategoryID: parseInt(values.CategoryID),
+          UserID: parseInt(UserID),
+          Name: values.Name,
+          ExpiryDate: expiry[0],
+          NotifyDate: notif[0],
+        };
+
+        formData.append("Data", JSON.stringify(Data));
+
+        await createfoodItem(formData)
+          .then((res) => {
+            reRender();
+            onClose();
+            resetForm();
+          })
+          .catch((err) => {
+            ToastFailure(err.response.data);
+          });
       }}
     >
-      {({ errors, touched, values, setFieldValue }) => (
+      {({ errors, touched, values, setFieldValue, handleChange }) => (
         <Container>
           <Box>
             <Section2>
@@ -72,6 +100,17 @@ function AddFood() {
                   {errors.ImageSrc && touched.ImageSrc && (
                     <ErrorMessage error={errors.ImageSrc} />
                   )}
+
+                  <SelectField
+                    name="CategoryID"
+                    check
+                    next
+                    options={allCategories}
+                    handleChange={handleChange}
+                    value={values.CategoryID}
+                    error={errors.CategoryID}
+                    touched={touched.CategoryID}
+                  />
                   <Button type="submit">Add Food</Button>
                 </div>
               </Form>

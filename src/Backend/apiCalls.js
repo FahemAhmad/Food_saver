@@ -10,7 +10,8 @@ const registerUser = (body) => httpService.post(`${user}register`, body);
 const loginUser = (body) => httpService.post(`${user}login`, body);
 
 //Food Item of a user
-const getfoodItem = (id) => httpService.get(`${foodItem}userid/${id}`);
+const getfoodItem = (id) =>
+  httpService.get(`${foodItem}notificationDates/${id}`);
 
 //create food item
 const createfoodItem = (body) => httpService.post(`${foodItem}`, body);
@@ -22,4 +23,10 @@ const nonExpiredFoodItem = (id) =>
 //get All Catgories
 const getCategoryItem = () => httpService.get(`${category}`);
 
-export { registerUser, loginUser, getfoodItem, getCategoryItem };
+export {
+  registerUser,
+  loginUser,
+  getfoodItem,
+  getCategoryItem,
+  createfoodItem,
+};

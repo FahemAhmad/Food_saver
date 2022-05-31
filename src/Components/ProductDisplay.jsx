@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Breakpoints from "../Breakpoints";
 
 function ProductDisplay({ title, image, expiry, category, isExp }) {
   return (
@@ -38,9 +39,19 @@ function ProductDisplay({ title, image, expiry, category, isExp }) {
 const Container = styled.div`
   position: relative;
   margin: 15px 0px;
-  width: 30%;
+
   border: 1px solid black;
   padding: 0 0 10px 0;
+
+  @media only screen and ${Breakpoints.device.xs} {
+    width: 85%;
+  }
+  @media only screen and ${Breakpoints.device.sm} {
+    width: 45%;
+  }
+  @media only screen and ${Breakpoints.device.lg} {
+    width: 30%;
+  }
 `;
 
 const Title = styled.h1`

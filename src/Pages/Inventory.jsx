@@ -7,8 +7,19 @@ import ExpiringNext from "../Components/ExpiringNext";
 import ProductDisplay from "../Components/ProductDisplay";
 import SelectField from "../Components/SelectField";
 import { ToastFailure } from "../Components/Toast";
+import breakpoint from "../Breakpoints";
+
+import moment from "moment";
 import "./Inventory.css";
 
+import DatepickerNoForm from "../Components/DatepickerNoForm";
+
+const calculateExpiry = (expiry) => {
+  let a = moment(new Date());
+  let b = moment(expiry);
+
+  return b.diff(a, "days");
+};
 const style = {
   position: "absolute",
   top: "50%",
@@ -29,6 +40,7 @@ function Inventory() {
     JSON.parse(localStorage.getItem("user"))?.UserID
   );
 
+  const [startDate, setStartDate] = useState(new Date());
   const [name, setName] = useState("");
   const [expDate, setExpiry] = useState("");
   const [food, setFood] = useState();
@@ -74,15 +86,17 @@ function Inventory() {
           allFood.filter(
             (item) =>
               item.Name.toLowerCase().includes(name) &&
-              item.DaysRemaining > expDate
+              calculateExpiry(item.ExpiryDate) <= expDate
           )
         );
-      } else if (name.length > 2 && expDate <= 2) {
+      } else if (name.length > 2 && expDate === 0) {
         setFood(
           allFood.filter((item) => item.Name.toLowerCase().includes(name))
         );
       } else if (name.length <= 2 && expDate > 0) {
-        setFood(allFood.filter((item) => item.DaysRemaining > expDate));
+        setFood(
+          allFood.filter((item) => calculateExpiry(item.ExpiryDate) <= expDate)
+        );
       } else setFood(allFood);
     } else {
       setName("");
@@ -102,7 +116,11 @@ function Inventory() {
   };
 
   const searchByExpiry = (query) => {
-    if (query.length > 0) setExpiry(parseInt(query));
+    setStartDate(query);
+
+    const res = calculateExpiry(query);
+
+    if (res > 0) setExpiry(res);
     else setExpiry("");
   };
 
@@ -150,7 +168,9 @@ function Inventory() {
                 "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000"
               }
             />
-            <Usertext>xyz@gmail.com</Usertext>
+            <Usertext>
+              {JSON.parse(localStorage.getItem("user"))?.Email}
+            </Usertext>
           </Section>
         </Row>
         <Row>
@@ -166,11 +186,11 @@ function Inventory() {
                 value={name}
                 onChange={(e) => searchByName(e.target.value)}
               />
-              <InputSection
-                placeholder="Search by Expiration Date"
-                value={expDate}
-                onChange={(e) => searchByExpiry(e.target.value)}
+              <DatepickerNoForm
+                selected={startDate}
+                onChange={searchByExpiry}
               />
+
               <SelectField
                 name="Search by Category"
                 options={allCategories}
@@ -224,12 +244,19 @@ export default Inventory;
 
 const Container = styled.div`
   height: 100vh;
-  max-height: 100vh;
+
   background-color: #f9eee2;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+
+  @media only screen and ${breakpoint.device.xs} {
+    max-height: 100%;
+  }
+  @media only screen and ${breakpoint.device.lg} {
+    max-height: 100vh;
+  }
 `;
 
 const Logo = styled.h2`
@@ -252,6 +279,14 @@ const Row2 = styled.div`
   width: 100%;
   display: flex;
   height: 100%;
+  background-color: #f9eee2;
+
+  @media only screen and ${breakpoint.device.xs} {
+    flex-direction: column;
+  }
+  @media only screen and ${breakpoint.device.lg} {
+    flex-direction: row;
+  }
 `;
 
 const Section = styled.div`
@@ -288,10 +323,12 @@ const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f9eee2;
 `;
 
 const RightSection = styled.div`
   flex: 2;
+  background-color: #f9eee2;
 `;
 
 const InputSection = styled.input`
@@ -307,10 +344,17 @@ const InputSection = styled.input`
 `;
 
 const SpaceApart = styled.div`
-  width: 100%;
+  width: 95%;
   margin-top: 30px;
   display: flex;
   justify-content: space-around;
+
+  @media only screen and ${breakpoint.device.xs} {
+    flex-direction: column;
+  }
+  @media only screen and ${breakpoint.device.sm} {
+    flex-direction: row;
+  }
 `;
 
 const Button = styled.button`

@@ -6,14 +6,17 @@ function ExpiringNext({ food }) {
     <>
       <Container>Expiring Next</Container>
       <Lists className="list">
-        {food?.map((item, index) => (
-          <ListItem key={index}>
-            {index + 1}. {item.Name}{" "}
-            <Days isExp={item.DaysRemaining < 5 ? true : false}>
-              {item.DaysRemaining} days
-            </Days>
-          </ListItem>
-        ))}
+        {food?.map(
+          (item, index) =>
+            item.DaysRemaining < 10 && (
+              <ListItem key={index}>
+                {index + 1}. {item.Name}{" "}
+                <Days isExp={item.DaysRemaining < 5 ? true : false}>
+                  {item.DaysRemaining} days
+                </Days>
+              </ListItem>
+            )
+        )}
       </Lists>
     </>
   );

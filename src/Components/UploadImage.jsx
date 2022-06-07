@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Upload.css";
 
 function UploadImage({ setFieldValue, values, name }) {
   const [selectedImage, setSelectedImage] = useState();
@@ -27,7 +28,7 @@ function UploadImage({ setFieldValue, values, name }) {
         onChange={(event) => {
           imageChange(event);
         }}
-        className="form-control"
+        className="stylo form-control"
       />
       {selectedImage && (
         <div style={styles.preview}>

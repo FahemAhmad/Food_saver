@@ -20,7 +20,6 @@ const validationSchema = yup.object().shape({
 });
 
 function AddFood({ allCategories, reRender, onClose }) {
-  const navigate = useNavigate();
   return (
     <Formik
       validationSchema={validationSchema}
@@ -92,14 +91,6 @@ function AddFood({ allCategories, reRender, onClose }) {
                   {errors.NotifyDate && touched.NotifyDate && (
                     <ErrorMessage error={errors.NotifyDate} />
                   )}
-                  <UploadImage
-                    name={"ImageSrc"}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                  />
-                  {errors.ImageSrc && touched.ImageSrc && (
-                    <ErrorMessage error={errors.ImageSrc} />
-                  )}
 
                   <SelectField
                     name="CategoryID"
@@ -111,6 +102,14 @@ function AddFood({ allCategories, reRender, onClose }) {
                     error={errors.CategoryID}
                     touched={touched.CategoryID}
                   />
+                  <UploadImage
+                    name={"ImageSrc"}
+                    values={values}
+                    setFieldValue={setFieldValue}
+                  />
+                  {errors.ImageSrc && touched.ImageSrc && (
+                    <ErrorMessage error={errors.ImageSrc} />
+                  )}
                   <Button type="submit">Add Food</Button>
                 </div>
               </Form>

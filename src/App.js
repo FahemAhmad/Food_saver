@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Inventory from "./Pages/Inventory";
+import "@splidejs/react-splide/css";
 
 import "react-datepicker/dist/react-datepicker.css";
 

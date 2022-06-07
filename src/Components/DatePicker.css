@@ -13,3 +13,23 @@ input {
   padding: 10px;
   background-color: #f9eee2;
 }
+
+.react-datepicker {
+  background-color: #f9eee2 !important;
+}
+
+.react-datepicker__header {
+  background-color: #f3d3b7 !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #8e4404 !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: #f3d3b7 !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #8e4404 !important;
+}

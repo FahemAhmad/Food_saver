@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import Breakpoints from "../Breakpoints";
 
-function ProductDisplay({ title, image, expiry, category, isExp }) {
+function CategoryDisplay({ title, image, expiry, category, isExp }) {
   return (
     <>
       <Container>
@@ -33,6 +34,15 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  @media only screen and ${Breakpoints.device.xs} {
+    width: 85%;
+  }
+  @media only screen and ${Breakpoints.device.sm} {
+    width: 30%;
+  }
+  @media only screen and ${Breakpoints.device.lg} {
+    width: 24%;
+  }
 `;
 
 const Category = styled.h2`
@@ -68,4 +78,4 @@ const CoverImg = styled.img`
 const DaysLeft = styled.span`
   color: ${(props) => (props.isExp === null ? "green" : "red")};
 `;
-export default ProductDisplay;
+export default CategoryDisplay;

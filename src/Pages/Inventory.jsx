@@ -3,16 +3,24 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getCategoryItem, getfoodItem } from "../Backend/apiCalls";
 import AddFood from "../Components/AddFood";
-import ExpiringNext from "../Components/ExpiringNext";
 import ProductDisplay from "../Components/ProductDisplay";
 import SelectField from "../Components/SelectField";
+import NotificationAddIcon from "@mui/icons-material/NotificationAdd";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { ToastFailure } from "../Components/Toast";
 import breakpoint from "../Breakpoints";
 
+import "react-tabs/style/react-tabs.css";
 import moment from "moment";
 import "./Inventory.css";
-
 import DatepickerNoForm from "../Components/DatepickerNoForm";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import AddIcon from "@mui/icons-material/Add";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import CategoryDisplay from "../Components/CategoryDisplay";
+import Notify from "../Components/Notify";
+import ExpiringNext from "../Components/ExpiringNext";
+import UserProfile from "../Components/UserProfile";
 
 const calculateExpiry = (expiry) => {
   let a = moment(new Date());
@@ -34,19 +42,24 @@ const style = {
 };
 
 function Inventory() {
+  const [notify, setNotify] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpen] = useState(false);
   const [id, setId] = useState(
     JSON.parse(localStorage.getItem("user"))?.UserID
   );
 
+  const [userProfileModal, setUserProfileModal] = useState(false);
+
   const [startDate, setStartDate] = useState(new Date());
+  const [expiringModal, setExpiringModal] = useState(false);
   const [name, setName] = useState("");
   const [expDate, setExpiry] = useState("");
   const [food, setFood] = useState();
   const [category, setCategory] = useState("");
   const [allCategories, setAllCategories] = useState([]);
   const [allFood, setAllFood] = useState();
+
   const handleOpen = () => {
     setOpen(!openModal);
   };
@@ -54,7 +67,7 @@ function Inventory() {
   const returnCatgeory = (id) => {
     const res = allCategories.filter((cat) => cat.CategoryID === parseInt(id));
 
-    return res[0].Name;
+    return res[0]?.Name;
   };
 
   const getUserFoods = async () => {
@@ -105,15 +118,15 @@ function Inventory() {
     }
   };
 
-  const searchByName = (query) => {
-    setCategory("");
-    setName(query.toLowerCase());
-  };
+  // const searchByName = (query) => {
+  //   setCategory("");
+  //   setName(query.toLowerCase());
+  // };
 
-  const searchByCategory = (query) => {
-    setCategory("");
-    setCategory(query.toLowerCase());
-  };
+  // const searchByCategory = (query) => {
+  //   setCategory("");
+  //   setCategory(query.toLowerCase());
+  // };
 
   const searchByExpiry = (query) => {
     setStartDate(query);
@@ -126,6 +139,18 @@ function Inventory() {
 
   const reRender = () => {
     getUserFoods();
+  };
+
+  const handleNotify = () => {
+    setNotify(!notify);
+  };
+
+  const handleExpiring = () => {
+    setExpiringModal(!expiringModal);
+  };
+
+  const handleUserProfile = () => {
+    setUserProfileModal(!userProfileModal);
   };
 
   useEffect(() => {
@@ -158,70 +183,177 @@ function Inventory() {
     <>
       <Container>
         <Row>
-          <Section />
           <Section>
-            <Logo>Food Saver</Logo>
-          </Section>
-          <Section>
+            <Logo>Welcome</Logo>
             <UserIcon
               src={
                 "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000"
               }
+              style={{ marginLeft: "100px" }}
+              onClick={handleUserProfile}
             />
-            <Usertext>
-              {JSON.parse(localStorage.getItem("user"))?.Email}
+            <Usertext onClick={handleUserProfile}>
+              {JSON.parse(localStorage.getItem("user"))?.Email}{" "}
             </Usertext>
           </Section>
         </Row>
-        <Row>
-          <Section border>Inventory</Section>
-          <Section border>Products</Section>
-        </Row>
+
         <Row2>
-          <LeftSection>
-            <Button onClick={handleOpen}>Add Food</Button>
-            <SpaceApart>
-              <InputSection
-                placeholder="Search by Name"
-                value={name}
-                onChange={(e) => searchByName(e.target.value)}
-              />
+          <LeftSection style={{ padding: 0 }}>
+            <Row>
               <DatepickerNoForm
                 selected={startDate}
                 onChange={searchByExpiry}
               />
+            </Row>
+            <Row style={{ padding: 0 }}>
+              <Tabs>
+                <TabList>
+                  <Row2 style={{ overflow: "hidden", width: "100vw" }}>
+                    <Tab>Inventory</Tab>
+                    <Tab>Category</Tab>
+                    <DivAlign
+                      style={{
+                        flex: 1,
+                        marginTop: 1,
+                        border: "1px solid black",
+                        display: "flex",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <AddIcon
+                        style={{ cursor: "pointer", color: "green" }}
+                        onClick={handleOpen}
+                      />
+                      <NotificationAddIcon
+                        onClick={handleNotify}
+                        style={{ cursor: "pointer", color: "orange" }}
+                      />
+                      <EventAvailableIcon
+                        onClick={handleExpiring}
+                        style={{ cursor: "pointer", color: "red" }}
+                      />
+                    </DivAlign>
+                  </Row2>
+                </TabList>
 
-              <SelectField
-                name="Search by Category"
-                options={allCategories}
-                check={true}
-                next={false}
-                handleChange={(e) => searchByCategory(e.target.value)}
-                value={category}
-                error={false}
-                touched={false}
-              />
-            </SpaceApart>
+                <TabPanel>
+                  <ProjectsContainer className="projectList">
+                    <h2 style={{ color: "#834404", textAlign: "center" }}>
+                      Fridge
+                    </h2>
+                    <Splide
+                      className="slide"
+                      options={{
+                        rewind: true,
+                        gap: ".5rem",
+                        perPage: 6,
 
-            <ProjectsContainer className="projectList">
-              {food?.map((p, index) => (
-                <ProductDisplay
-                  key={index}
-                  image={p.ImageSrc}
-                  title={p.Name}
-                  category={returnCatgeory(p.CategoryID)}
-                  expiry={p.ExpiryDate}
-                  isExp={p.IsExpired}
-                ></ProductDisplay>
-              ))}
-            </ProjectsContainer>
+                        hasTrack: false,
+                      }}
+                      aria-label="My Favorite Images"
+                    >
+                      {food?.map((p, index) => (
+                        <SplideSlide key={index}>
+                          <ProductDisplay
+                            image={p.ImageSrc}
+                            title={p.Name}
+                            category={returnCatgeory(p.CategoryID)}
+                            expiry={p.ExpiryDate}
+                            isExp={p.IsExpired}
+                          />
+                        </SplideSlide>
+                      ))}
+                    </Splide>
+                  </ProjectsContainer>
+                  <ProjectsContainer className="projectList">
+                    <h2 style={{ color: "#834404", textAlign: "center" }}>
+                      Pantry
+                    </h2>
+                    <Splide
+                      className="slide"
+                      options={{
+                        rewind: true,
+                        gap: ".5rem",
+                        perPage: 6,
+                        hasTrack: false,
+                      }}
+                      aria-label="My Favorite Images"
+                    >
+                      {food?.map((p, index) => (
+                        <SplideSlide key={index}>
+                          <ProductDisplay
+                            image={p.ImageSrc}
+                            title={p.Name}
+                            category={returnCatgeory(p.CategoryID)}
+                            expiry={p.ExpiryDate}
+                            isExp={p.IsExpired}
+                          />
+                        </SplideSlide>
+                      ))}
+                    </Splide>
+                  </ProjectsContainer>
+                  <ProjectsContainer className="projectList">
+                    <h2 style={{ color: "#834404", textAlign: "center" }}>
+                      Freezer
+                    </h2>
+                    <Splide
+                      className="slide"
+                      options={{
+                        rewind: true,
+                        gap: ".5rem",
+                        perPage: 6,
+                        hasTrack: false,
+                      }}
+                      aria-label="My Favorite Images"
+                    >
+                      {food?.map((p, index) => (
+                        <SplideSlide key={index}>
+                          <ProductDisplay
+                            image={p.ImageSrc}
+                            title={p.Name}
+                            category={returnCatgeory(p.CategoryID)}
+                            expiry={p.ExpiryDate}
+                            isExp={p.IsExpired}
+                          />
+                        </SplideSlide>
+                      ))}
+                    </Splide>
+                  </ProjectsContainer>
+                </TabPanel>
+                <TabPanel>
+                  <Center>
+                    <SelectField
+                      name="Category"
+                      options={allCategories}
+                      handleChange={(e) => setCategory(e.target.value)}
+                      value={category}
+                      error={false}
+                      touched={true}
+                      check={true}
+                    />
+                  </Center>
+
+                  <ProjectsContainer2 className="projectList">
+                    {food?.map((p, index) => (
+                      <CategoryDisplay
+                        key={index}
+                        image={p.ImageSrc}
+                        title={p.Name}
+                        category={returnCatgeory(p.CategoryID)}
+                        expiry={p.ExpiryDate}
+                        isExp={p.IsExpired}
+                      />
+                    ))}
+                  </ProjectsContainer2>
+                </TabPanel>
+              </Tabs>
+            </Row>
           </LeftSection>
-          <RightSection>
-            <ExpiringNext food={allFood} />
-          </RightSection>
         </Row2>
       </Container>
 
+      {/* A lot of modals ? yes so many*/}
       <Modal
         open={openModal}
         onClose={handleOpen}
@@ -236,6 +368,41 @@ function Inventory() {
           />
         </Box>
       </Modal>
+      <Modal
+        open={notify}
+        onClose={handleNotify}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={[style, { height: "40%" }]}>
+          <Notify food={food} onClose={handleNotify} />
+        </Box>
+      </Modal>
+      <Modal
+        open={expiringModal}
+        onClose={handleExpiring}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={[style, { height: "auto" }]}>
+          <ExpiringNext food={food} onClose={handleNotify} />
+        </Box>
+      </Modal>
+
+      {/* User Modal */}
+      <Modal
+        open={userProfileModal}
+        onClose={handleUserProfile}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={[style, { height: "auto" }]}>
+          <UserProfile
+            user={JSON.parse(localStorage.getItem("user"))}
+            onClose={handleNotify}
+          />
+        </Box>
+      </Modal>
     </>
   );
 }
@@ -243,8 +410,8 @@ function Inventory() {
 export default Inventory;
 
 const Container = styled.div`
-  height: 100vh;
-
+  min-height: 100vh;
+  width: 100vw;
   background-color: #f9eee2;
   display: flex;
   justify-content: flex-start;
@@ -253,9 +420,6 @@ const Container = styled.div`
 
   @media only screen and ${breakpoint.device.xs} {
     max-height: 100%;
-  }
-  @media only screen and ${breakpoint.device.lg} {
-    max-height: 100vh;
   }
 `;
 
@@ -267,16 +431,16 @@ const Logo = styled.h2`
 `;
 
 const Row = styled.div`
-  padding: 5px;
   border-bottom: 1px solid black;
-  width: 100%;
+
   display: flex;
+  justify-content: center;
+  width: 100vw;
 `;
 
 const Row2 = styled.div`
-  padding: 5px;
   border-bottom: 1px solid black;
-  width: 100%;
+  max-width: 100vw;
   display: flex;
   height: 100%;
   background-color: #f9eee2;
@@ -318,16 +482,9 @@ const Usertext = styled.span`
 `;
 
 const LeftSection = styled.div`
-  flex: 5;
-  border-right: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f9eee2;
-`;
-
-const RightSection = styled.div`
-  flex: 2;
   background-color: #f9eee2;
 `;
 
@@ -357,21 +514,27 @@ const SpaceApart = styled.div`
   }
 `;
 
-const Button = styled.button`
-  width: 95%;
-  padding: 5px 60px;
-  font-size: 1.1rem;
-  background-color: #f3d3b7;
-  margin-top: 20px;
+const ProjectsContainer = styled.div`
+  max-width: 100vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: relative;
 `;
 
-const ProjectsContainer = styled.div`
-  margin-top: 20px;
+const ProjectsContainer2 = styled.div`
+  max-width: 100vw;
+  margin-top: 10px;
   margin-bottom: 10px;
-  width: 97%;
-  overflow: scroll;
-  max-height: 65vh;
+  position: relative;
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
+  justify-content: space-around;
+`;
+
+const DivAlign = styled.div``;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

@@ -1,5 +1,7 @@
+import format from "date-format";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { updateFoodItem } from "../Backend/apiCalls";
 import DatepickerNoForm from "./DatepickerNoForm";
 
 const Notify = ({ food }) => {
@@ -14,10 +16,33 @@ const Notify = ({ food }) => {
     setStartDate(val);
   };
 
-  const setNotifyDate = () => {
-    if (product === "") console.log("error");
+  const setNotifyDate = async () => {
+    if (product === "") console.log("Empty Fields");
     else {
-      console.log(product, startDate);
+      let formData = new FormData();
+      const values = food.filter((item) => item?.FoodItemID === product)[0];
+
+      formData.append("ImageSrc", values.ImageSrc);
+      const { UserID } = JSON.parse(localStorage.getItem("user"));
+      const expiry = values.ExpiryDate;
+      const NotifyDate = format(startDate, "yyyy-mm-dd").split("T");
+
+      const Data = {
+        CategoryID: parseInt(values.CategoryID),
+        UserID: parseInt(UserID),
+        Name: values.Name,
+        ExpiryDate: expiry,
+        NotifyDate: NotifyDate[0],
+      };
+      formData.append("Data", JSON.stringify(Data));
+
+      await updateFoodItem(product, formData)
+        .then((res) => {
+          console.log(res, "Updated");
+        })
+        .catch((err) => {
+          console.log("Error", err.response.data);
+        });
     }
   };
 

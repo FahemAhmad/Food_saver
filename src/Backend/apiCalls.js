@@ -16,12 +16,11 @@ const getfoodItem = (id) =>
 //create food item
 const createfoodItem = (body) => httpService.post(`${foodItem}`, body);
 
-//get What expiring Next
-const nonExpiredFoodItem = (id) =>
-  httpService.get(`${foodItem}nonexpired/${id}`, id);
-
 //get All Catgories
 const getCategoryItem = () => httpService.get(`${category}`);
+
+//update food item
+const updateFoodItem = (id, body) => httpService.put(`${foodItem}${id}`, body);
 
 export {
   registerUser,
@@ -29,4 +28,5 @@ export {
   getfoodItem,
   getCategoryItem,
   createfoodItem,
+  updateFoodItem,
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import styled from "styled-components";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, food }) => {
   return (
     <>
       <Tabs>
@@ -20,6 +20,8 @@ const UserProfile = ({ user }) => {
               width={150}
               height={150}
             />
+            <Heading>Id: {user?.UserID}</Heading>
+            <Line />
             <Heading>Name: {user?.Name}</Heading>
             <Line />
             <Heading>Email:{user?.Email}</Heading>
@@ -28,14 +30,14 @@ const UserProfile = ({ user }) => {
             <Line />
             <Heading>Age: {user?.Age}</Heading>
             <Line />
-            <Heading>Items: {user?.fooditems?.length}</Heading>
+            <Heading>Items: {food?.length}</Heading>
             <Line />
           </Center>
         </TabPanel>
         <TabPanel>
           <Center>
             <Heading>Your Items</Heading>
-            {user?.fooditems?.map((item, index) => (
+            {food?.map((item, index) => (
               <>
                 <Row key={index}>
                   <img

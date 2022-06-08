@@ -2,8 +2,14 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "./DatePicker.css";
 import styled from "styled-components";
-
-const DatepickerNoForm = ({ selected, onChange, withPortal = true }) => {
+import CloseIcon from "@mui/icons-material/Close";
+const DatepickerNoForm = ({
+  selected,
+  onChange,
+  withPortal = true,
+  touched = false,
+  onClose,
+}) => {
   return (
     <>
       <Div />
@@ -16,6 +22,13 @@ const DatepickerNoForm = ({ selected, onChange, withPortal = true }) => {
         placeholderText={"Expiry search"}
         withPortal={withPortal}
       />
+      {touched && (
+        <CloseIcon
+          style={{ margin: "auto", color: "red", cursor: "pointer" }}
+          size={40}
+          onClick={onClose}
+        />
+      )}
       <Div />
       <Div />
     </>

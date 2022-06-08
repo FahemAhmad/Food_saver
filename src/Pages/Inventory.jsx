@@ -28,6 +28,12 @@ const calculateExpiry = (expiry) => {
 
   return b.diff(a, "days");
 };
+
+const CompareExpiry = (expiry, exp) => {
+  let a = moment(exp);
+  let b = moment(expiry);
+  return b.diff(a, "days");
+};
 const style = {
   position: "absolute",
   top: "50%",
@@ -55,10 +61,17 @@ function Inventory() {
   const [expiringModal, setExpiringModal] = useState(false);
   const [name, setName] = useState("");
   const [expDate, setExpiry] = useState("");
+  //store display food
   const [food, setFood] = useState();
+  //store selected category
   const [category, setCategory] = useState("");
+  //store all the categories
   const [allCategories, setAllCategories] = useState([]);
+  //store all the food
   const [allFood, setAllFood] = useState();
+
+  //touch for date picker
+  const [touch, setTouch] = useState();
 
   const handleOpen = () => {
     setOpen(!openModal);
@@ -118,23 +131,27 @@ function Inventory() {
     }
   };
 
-  // const searchByName = (query) => {
-  //   setCategory("");
-  //   setName(query.toLowerCase());
-  // };
-
-  // const searchByCategory = (query) => {
-  //   setCategory("");
-  //   setCategory(query.toLowerCase());
-  // };
+  const handlePickerOnclose = () => {
+    setStartDate(new Date());
+    setFood(allFood);
+    setTouch(false);
+  };
 
   const searchByExpiry = (query) => {
-    setStartDate(query);
+    if (query === "") {
+      setFood(allFood);
+    } else {
+      setTouch(true);
+      setStartDate(query);
 
-    const res = calculateExpiry(query);
+      setFood(() =>
+        allFood?.filter((item) => CompareExpiry(item.ExpiryDate, query) === 0)
+      );
+    }
+  };
 
-    if (res > 0) setExpiry(res);
-    else setExpiry("");
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
   };
 
   const reRender = () => {
@@ -204,13 +221,22 @@ function Inventory() {
               <DatepickerNoForm
                 selected={startDate}
                 onChange={searchByExpiry}
+                onClose={handlePickerOnclose}
+                touched={touch}
               />
             </Row>
             <Row style={{ padding: 0 }}>
               <Tabs>
                 <TabList>
                   <Row2 style={{ overflow: "hidden", width: "100vw" }}>
-                    <Tab>Inventory</Tab>
+                    <Tab
+                      onClick={() => {
+                        setFood(allFood);
+                        setCategory("");
+                      }}
+                    >
+                      Inventory
+                    </Tab>
                     <Tab>Category</Tab>
                     <DivAlign
                       style={{
@@ -248,22 +274,39 @@ function Inventory() {
                         rewind: true,
                         gap: ".5rem",
                         perPage: 6,
+                        breakpoints: {
+                          623: {
+                            perPage: 2,
+                          },
+                          935: {
+                            perPage: 3,
+                          },
+                          1250: {
+                            perPage: 4,
+                          },
+                          1500: {
+                            perPage: 5,
+                          },
+                        },
 
                         hasTrack: false,
                       }}
                       aria-label="My Favorite Images"
                     >
-                      {food?.map((p, index) => (
-                        <SplideSlide key={index}>
-                          <ProductDisplay
-                            image={p.ImageSrc}
-                            title={p.Name}
-                            category={returnCatgeory(p.CategoryID)}
-                            expiry={p.ExpiryDate}
-                            isExp={p.IsExpired}
-                          />
-                        </SplideSlide>
-                      ))}
+                      {food?.map(
+                        (p, index) =>
+                          returnCatgeory(p.CategoryID) === "Fridge" && (
+                            <SplideSlide key={index}>
+                              <ProductDisplay
+                                image={p.ImageSrc}
+                                title={p.Name}
+                                category={returnCatgeory(p.CategoryID)}
+                                expiry={p.ExpiryDate}
+                                isExp={p.IsExpired}
+                              />
+                            </SplideSlide>
+                          )
+                      )}
                     </Splide>
                   </ProjectsContainer>
                   <ProjectsContainer className="projectList">
@@ -277,20 +320,37 @@ function Inventory() {
                         gap: ".5rem",
                         perPage: 6,
                         hasTrack: false,
+                        breakpoints: {
+                          623: {
+                            perPage: 2,
+                          },
+                          935: {
+                            perPage: 3,
+                          },
+                          1250: {
+                            perPage: 4,
+                          },
+                          1500: {
+                            perPage: 5,
+                          },
+                        },
                       }}
                       aria-label="My Favorite Images"
                     >
-                      {food?.map((p, index) => (
-                        <SplideSlide key={index}>
-                          <ProductDisplay
-                            image={p.ImageSrc}
-                            title={p.Name}
-                            category={returnCatgeory(p.CategoryID)}
-                            expiry={p.ExpiryDate}
-                            isExp={p.IsExpired}
-                          />
-                        </SplideSlide>
-                      ))}
+                      {food?.map(
+                        (p, index) =>
+                          returnCatgeory(p.CategoryID) === "Pantry" && (
+                            <SplideSlide key={index}>
+                              <ProductDisplay
+                                image={p.ImageSrc}
+                                title={p.Name}
+                                category={returnCatgeory(p.CategoryID)}
+                                expiry={p.ExpiryDate}
+                                isExp={p.IsExpired}
+                              />
+                            </SplideSlide>
+                          )
+                      )}
                     </Splide>
                   </ProjectsContainer>
                   <ProjectsContainer className="projectList">
@@ -304,20 +364,37 @@ function Inventory() {
                         gap: ".5rem",
                         perPage: 6,
                         hasTrack: false,
+                        breakpoints: {
+                          623: {
+                            perPage: 2,
+                          },
+                          935: {
+                            perPage: 3,
+                          },
+                          1250: {
+                            perPage: 4,
+                          },
+                          1500: {
+                            perPage: 5,
+                          },
+                        },
                       }}
                       aria-label="My Favorite Images"
                     >
-                      {food?.map((p, index) => (
-                        <SplideSlide key={index}>
-                          <ProductDisplay
-                            image={p.ImageSrc}
-                            title={p.Name}
-                            category={returnCatgeory(p.CategoryID)}
-                            expiry={p.ExpiryDate}
-                            isExp={p.IsExpired}
-                          />
-                        </SplideSlide>
-                      ))}
+                      {food?.map(
+                        (p, index) =>
+                          returnCatgeory(p.CategoryID) === "Freezer" && (
+                            <SplideSlide key={index}>
+                              <ProductDisplay
+                                image={p.ImageSrc}
+                                title={p.Name}
+                                category={returnCatgeory(p.CategoryID)}
+                                expiry={p.ExpiryDate}
+                                isExp={p.IsExpired}
+                              />
+                            </SplideSlide>
+                          )
+                      )}
                     </Splide>
                   </ProjectsContainer>
                 </TabPanel>
@@ -326,7 +403,7 @@ function Inventory() {
                     <SelectField
                       name="Category"
                       options={allCategories}
-                      handleChange={(e) => setCategory(e.target.value)}
+                      handleChange={(e) => handleCategory(e)}
                       value={category}
                       error={false}
                       touched={true}
@@ -385,7 +462,7 @@ function Inventory() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={[style, { height: "auto" }]}>
-          <ExpiringNext food={food} onClose={handleNotify} />
+          <ExpiringNext food={food} onClose={handleExpiring} />
         </Box>
       </Modal>
 
@@ -399,6 +476,7 @@ function Inventory() {
         <Box sx={[style, { height: "auto" }]}>
           <UserProfile
             user={JSON.parse(localStorage.getItem("user"))}
+            food={food}
             onClose={handleNotify}
           />
         </Box>

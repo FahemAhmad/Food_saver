@@ -10,6 +10,7 @@ import UploadImage from "./UploadImage";
 import format from "date-format";
 import SelectField from "./SelectField";
 import { createfoodItem } from "../Backend/apiCalls";
+import "../Pages/Login.css";
 
 const validationSchema = yup.object().shape({
   Name: yup.string().required().label("Name"),
@@ -73,7 +74,14 @@ function AddFood({ allCategories, reRender, onClose }) {
                     padding: "2% 0% 0% 0%",
                   }}
                 >
-                  <TextField type="text" name="Name" placeholder="Name" />
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="Name"
+                    placeholder="Name"
+                    value={values.Name}
+                    onChange={handleChange}
+                  />
                   {errors.Name && touched.Name && (
                     <ErrorMessage error={errors.Name} />
                   )}

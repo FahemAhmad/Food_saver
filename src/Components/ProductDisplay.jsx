@@ -1,71 +1,86 @@
-import React from "react";
+import { Box, Modal } from "@mui/material";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Notify from "./Notify";
+import "./Product.css";
 
-function ProductDisplay({ title, image, expiry, category, isExp }) {
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "500px",
+  height: "auto",
+  backgroundColor: "#f9eee2",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+function ProductDisplay({ food, title, image, expiry, category }) {
+  const [notify, setNotify] = useState(false);
+
+  const handleNotify = () => {
+    setNotify(!notify);
+  };
   return (
     <>
-      <Container>
-        <Foreground>
-          <CoverImg src={image} />
-        </Foreground>
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-md-3">
+            <div className="card">
+              <div className="image-container">
+                <div className="first">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span className="discount">-25%</span>{" "}
+                    <span className="wishlist">
+                      <i className="fa fa-heart-o"></i>
+                    </span>
+                  </div>
+                </div>
+                <img
+                  src={image}
+                  className="img-fluid rounded thumbnail-image"
+                  alt={title}
+                />
+              </div>
+              <div className="product-detail-container p-2">
+                <div className="d-flex justify-content-between align-items-center">
+                  <h5 className="dress-name">{title}</h5>
+                  <div className="d-flex flex-column mb-2">
+                    {" "}
+                    <span className="new-price">{category}</span>{" "}
+                  </div>
+                </div>
 
-        <div style={{ marginLeft: 20 }}>
-          <Category>Category : {category}</Category>
-          <Title>
-            {title}
-            <br />
-          </Title>
-          <ExpiryHeading>
-            Expiry : <DaysLeft isExp={isExp}>{expiry}</DaysLeft>
-          </ExpiryHeading>
+                <div className="d-flex justify-content-between align-items-center pt-1">
+                  <div>
+                    {" "}
+                    <i className="fa fa-star-o rating-star"></i>{" "}
+                    <span className="rating-number">{expiry}</span>{" "}
+                  </div>{" "}
+                  <span className="buy" onClick={handleNotify}>
+                    Set Notification
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </Container>
+      </div>
+
+      <Modal
+        open={notify}
+        onClose={handleNotify}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={[style, { height: "40%" }]}>
+          <Notify food={food} onClose={handleNotify} />
+        </Box>
+      </Modal>
     </>
   );
 }
 
-const Container = styled.div`
-  position: relative;
-  margin: 10px 0px;
-  background-color: white;
-  border: 1px solid black;
-  padding: 10px 0px 10px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const Category = styled.h2`
-  font-size: 1rem;
-  color: darkgray;
-`;
-
-const ExpiryHeading = styled.h1`
-  font-size: 1rem;
-  color: #035416;
-`;
-const Title = styled.h1`
-  font-size: 1.4rem;
-  color: #005a7a;
-`;
-
-const Foreground = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const CoverImg = styled.img`
-  margin: 5px;
-  width: 180px;
-  height: 120px;
-  object-fit: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-`;
-
-const DaysLeft = styled.span`
-  color: ${(props) => (props.isExp === null ? "green" : "red")};
-`;
 export default ProductDisplay;

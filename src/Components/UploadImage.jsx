@@ -17,14 +17,11 @@ function UploadImage({ setFieldValue, values, name }) {
 
   return (
     <div className="form-group">
-      <label htmlFor="file" style={{ margin: "0 20%" }}>
-        File upload
-      </label>
       <input
         id="file"
         name={name}
         type="file"
-        style={{ margin: "0 20%" }}
+        style={{ padding: "10px 0", height: "100%" }}
         onChange={(event) => {
           imageChange(event);
         }}

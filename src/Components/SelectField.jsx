@@ -12,6 +12,7 @@ function SelectField({
   touched,
   check,
   next,
+  full = true,
 }) {
   return (
     <>
@@ -20,7 +21,9 @@ function SelectField({
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
-        style={{ display: "block" }}
+        style={
+          full ? { display: "block", width: "100%" } : { display: "block" }
+        }
         next={next}
       >
         <Options value="" label={`Select a ${name}`}>
@@ -44,11 +47,10 @@ function SelectField({
 export default SelectField;
 
 const Selection = styled.select`
-  margin: ${(props) => (props.next ? "0% 20%" : "0 0")};
-  padding: 15px 10px;
-  background-color: #f9eee2;
-  border: none;
-  border-bottom: 1px solid black;
+  padding: 10px 10px;
+  background-color: #fff;
+
+  border: 1px solid #e3e3e3;
   margin-bottom: 10px;
 `;
 

@@ -1,7 +1,8 @@
 .react-datepicker__input-container {
   display: flex !important;
   justify-content: center;
-  padding: 10px;
+  padding: 0px;
+  margin: 5px 0;
 }
 
 .react-datepicker-ignore-onclickoutside {
@@ -10,12 +11,17 @@
 }
 
 input {
-  padding: 10px;
-  background-color: #f9eee2;
+  min-height: 41px;
+  background: #fff;
+  box-shadow: none !important;
+  padding: 0 10px;
+  width: 100%;
+  border: 1px solid #e3e3e3;
 }
 
 .react-datepicker {
   background-color: #f9eee2 !important;
+  border: 1px solid #e3e3e3;
 }
 
 .react-datepicker__header {

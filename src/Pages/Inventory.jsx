@@ -18,9 +18,10 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import AddIcon from "@mui/icons-material/Add";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import CategoryDisplay from "../Components/CategoryDisplay";
-import Notify from "../Components/Notify";
+
 import ExpiringNext from "../Components/ExpiringNext";
 import UserProfile from "../Components/UserProfile";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const calculateExpiry = (expiry) => {
   let a = moment(new Date());
@@ -48,6 +49,7 @@ const style = {
 };
 
 function Inventory() {
+  const navigate = useNavigate();
   const [notify, setNotify] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpen] = useState(false);
@@ -158,10 +160,6 @@ function Inventory() {
     getUserFoods();
   };
 
-  const handleNotify = () => {
-    setNotify(!notify);
-  };
-
   const handleExpiring = () => {
     setExpiringModal(!expiringModal);
   };
@@ -209,7 +207,7 @@ function Inventory() {
               style={{ marginLeft: "100px" }}
               onClick={handleUserProfile}
             />
-            <Usertext onClick={handleUserProfile}>
+            <Usertext onClick={() => navigate("/details")}>
               {JSON.parse(localStorage.getItem("user"))?.Email}{" "}
             </Usertext>
           </Section>
@@ -248,16 +246,28 @@ function Inventory() {
                       }}
                     >
                       <AddIcon
-                        style={{ cursor: "pointer", color: "green" }}
+                        style={{
+                          cursor: "pointer",
+                          color: "white",
+                          height: 40,
+                          width: 40,
+                          backgroundColor: "green",
+                          borderRadius: "50%",
+                        }}
                         onClick={handleOpen}
                       />
-                      <NotificationAddIcon
-                        onClick={handleNotify}
-                        style={{ cursor: "pointer", color: "orange" }}
-                      />
+
                       <EventAvailableIcon
                         onClick={handleExpiring}
-                        style={{ cursor: "pointer", color: "red" }}
+                        style={{
+                          cursor: "pointer",
+                          color: "white",
+                          height: 40,
+                          width: 40,
+                          backgroundColor: "red",
+                          borderRadius: "50%",
+                          padding: 5,
+                        }}
                       />
                     </DivAlign>
                   </Row2>
@@ -298,6 +308,7 @@ function Inventory() {
                           returnCatgeory(p.CategoryID) === "Fridge" && (
                             <SplideSlide key={index}>
                               <ProductDisplay
+                                food={p}
                                 image={p.ImageSrc}
                                 title={p.Name}
                                 category={returnCatgeory(p.CategoryID)}
@@ -408,6 +419,7 @@ function Inventory() {
                       error={false}
                       touched={true}
                       check={true}
+                      full={false}
                     />
                   </Center>
 
@@ -445,16 +457,7 @@ function Inventory() {
           />
         </Box>
       </Modal>
-      <Modal
-        open={notify}
-        onClose={handleNotify}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={[style, { height: "40%" }]}>
-          <Notify food={food} onClose={handleNotify} />
-        </Box>
-      </Modal>
+
       <Modal
         open={expiringModal}
         onClose={handleExpiring}
@@ -463,22 +466,6 @@ function Inventory() {
       >
         <Box sx={[style, { height: "auto" }]}>
           <ExpiringNext food={food} onClose={handleExpiring} />
-        </Box>
-      </Modal>
-
-      {/* User Modal */}
-      <Modal
-        open={userProfileModal}
-        onClose={handleUserProfile}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={[style, { height: "auto" }]}>
-          <UserProfile
-            user={JSON.parse(localStorage.getItem("user"))}
-            food={food}
-            onClose={handleNotify}
-          />
         </Box>
       </Modal>
     </>
@@ -564,32 +551,6 @@ const LeftSection = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #f9eee2;
-`;
-
-const InputSection = styled.input`
-  border: none;
-  border-bottom: 1px solid black;
-  padding: 5px;
-  background-color: transparent;
-  &:focus {
-    outline: none !important;
-    border: none;
-    border-top: 1px solid black;
-  }
-`;
-
-const SpaceApart = styled.div`
-  width: 95%;
-  margin-top: 30px;
-  display: flex;
-  justify-content: space-around;
-
-  @media only screen and ${breakpoint.device.xs} {
-    flex-direction: column;
-  }
-  @media only screen and ${breakpoint.device.sm} {
-    flex-direction: row;
-  }
 `;
 
 const ProjectsContainer = styled.div`

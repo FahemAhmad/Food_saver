@@ -9,9 +9,16 @@ const DatepickerField = ({ title, ...props }) => {
 
   return (
     <>
-      <h5 style={{ margin: "0 20%", fontWeight: "lighter" }}>{title}</h5>
       <DatePicker
-        style={{ margin: "0 20%" }}
+        style={{
+          margin: "0",
+          width: "100%",
+          minheight: 41,
+          background: "#fff",
+          boxShadow: "none",
+          borderColor: "#e3e3e3",
+        }}
+        placeholderText={title}
         {...field}
         {...props}
         selected={(field.value && new Date(field.value)) || null}

@@ -10,6 +10,7 @@ import Inventory from "./Pages/Inventory";
 import "@splidejs/react-splide/css";
 
 import "react-datepicker/dist/react-datepicker.css";
+import Details from "./Pages/Details";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/sign_in" element={<Login />} />
           <Route path="/sign_up" element={<Signup />} />
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/details" element={<Details />} />
         </Routes>
       </Router>
     </>

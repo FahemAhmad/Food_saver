@@ -14,7 +14,9 @@ const DatepickerNoForm = ({
     <>
       <Div />
       <Div />
-      <Text>Search by Expiry :</Text>
+      {withPortal && (
+        <Text style={{ marginRight: 30 }}>Search by Expiry :</Text>
+      )}
 
       <DatePicker
         selected={selected}

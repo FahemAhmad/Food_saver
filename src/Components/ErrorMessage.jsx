@@ -6,9 +6,12 @@ function ErrorMessage({ error }) {
 }
 
 const Container = styled.div`
-  padding: 15px;
+  padding: 10px;
   background-color: #ff9494;
-  margin: 0 20%;
+  color: white;
+  margin: 5px 0;
+  border-radius: 5px;
+  width: 100%;
 `;
 
 export default ErrorMessage;

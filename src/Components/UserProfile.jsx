@@ -36,7 +36,9 @@ const UserProfile = ({ user, food }) => {
         </TabPanel>
         <TabPanel>
           <Center>
-            <Heading>Your Items</Heading>
+            <Heading style={{ fontWeight: 800 }}>Your Items</Heading>
+            <div style={{ height: "1px", borderBottom: "1px solid black" }} />
+
             {food?.map((item, index) => (
               <>
                 <Row key={index}>
@@ -47,7 +49,7 @@ const UserProfile = ({ user, food }) => {
                     style={{ borderRadius: "50%" }}
                     alt={item.Name}
                   />
-                  <h2>{item?.Name}</h2>
+                  <h5>{item?.Name}</h5>
                 </Row>
                 <Line />
               </>
@@ -66,7 +68,7 @@ const Center = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px 0px;
+  margin: 10px 0px;
   width: 100%;
 `;
 
@@ -75,11 +77,10 @@ const DisplayPicture = styled.img`
 `;
 
 const Heading = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: black;
-  margin: 10px 0px;
+  margin: 5px 0px;
   text-align: left;
-
   font-weight: 200;
 `;
 

@@ -28,5 +28,5 @@ const Center = styled.div`
 const Container = styled.div`
   width: 50vw;
   margin: 2% 0;
-  background-color: #f3d3b7;
+  background-color: #cff2e6;
 `;

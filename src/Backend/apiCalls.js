@@ -22,6 +22,8 @@ const getCategoryItem = () => httpService.get(`${category}`);
 //update food item
 const updateFoodItem = (id, body) => httpService.put(`${foodItem}${id}`, body);
 
+//delete api
+const deleteFood = (id) => httpService.patch(`${foodItem}${id}`);
 export {
   registerUser,
   loginUser,
@@ -29,4 +31,5 @@ export {
   getCategoryItem,
   createfoodItem,
   updateFoodItem,
+  deleteFood,
 };

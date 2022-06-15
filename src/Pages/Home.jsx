@@ -1,92 +1,125 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import f1 from "../Assets/f1.png";
-import f2 from "../Assets/f2.png";
-import f3 from "../Assets/f3.png";
-import Navbar from "../Components/Navbar";
+import { Container, Row, Col } from "react-bootstrap";
+
+import home_image from "../images/home_image.png";
+import home_img5 from "../images/home_img5.png";
+import home_img6 from "../images/home_img6.png";
+
+import reduce from "../images/reduce.jpg";
+import no_waste from "../images/no_waste.jpg";
+import donation from "../images/donation.png";
+import "./Home.css";
 
 function Home() {
   return (
     <>
-      <Navbar />
-      <ImageContainer src={f1} style={{ margin: "10vw 0vw 0vw 15vw" }} />
-      <ImageContainer src={f2} style={{ margin: "10vw 0vw 0vw 45vw" }} />
-      <Circle value={"40vw"}>
-        <ImageContainer
-          src={f3}
-          style={{ marginLeft: "5vw", marginTop: "15vw", height: "20vw" }}
-        />
-      </Circle>
-      <Circle value={"20vw"} />
-      <Circle value={"15vw"} />
-      <Circle value={"25vw"} />
-      <Box />
-      <Container>
-        <MainHeading>Save your Cravings </MainHeading>
-        <Button as={Link} to="/sign_up">
-          Sign Up Now
-        </Button>
-      </Container>
+      <div className="home">
+        {/* <Container>
+                <img src={reduce} className='reduce'></img>
+                        <p className='header'>READY TO JOIN THE BATTLE AGAINST FOOD WASTE?</p>
+                </Container> */}
+
+        <div className="reduce">
+          <img src={reduce} className="ig" alt="donate" width="300" />
+
+          <div>
+            <h1 className="bannerReduce">
+              READY TO JOIN THE BATTLE AGAINST FOOD WASTE?
+            </h1>
+          </div>
+        </div>
+        <div className="ban">
+          <Row>
+            <Col sm={6}>
+              <p className="text secondBan">
+                World Hunger is on the rise; yet, an estimated 1/3 of all food
+                produced globally is lost or goes to waste. We all have a part
+                to play in reducing food loss and waste, not only for the sake
+                of the food but for the resources that go into it.
+              </p>
+            </Col>
+            <Col sm={6}>
+              <img className="image" src={home_image} alt="" />
+            </Col>
+          </Row>
+        </div>
+
+        <Container>
+          <Row>
+            <Col sm={6}>
+              <img className="image2" src={home_img5} alt="" />
+            </Col>
+            <Col sm={6}>
+              <p className="text2 thirdBan">
+                {" "}
+                As per the Food Waste Index Report (2021) of United Nations
+                Environment Programme, a staggering 50 kg of food is thrown away
+                per person every year in Indian homes. This excess food waste
+                usually ends up in landfills, creating potent greenhouse gases
+                which have dire environmental implications. Meanwhile, we
+                continue to be greenwashed into amassing more “organic” and
+                “sustainable” products than we really need.
+              </p>
+            </Col>
+          </Row>
+        </Container>
+
+        <p className="heh">Here's how you can make a difference!</p>
+
+        <Container className="text3">
+          <Col>
+            <h5>
+              Many people are prone to dismissing food waste as someone else's
+              issue ("I don't waste any food") or focusing primarily on the more
+              overtly distressing examples of waste (unharvested fields of
+              produce ploughed back into the earth, supermarket skip waste). The
+              reality is that more than half of all food waste in the
+              'civilised' globe occurs in our households. So, the bad news is we
+              are half the problem. But the good news is… we can be half the
+              solution!
+            </h5>
+          </Col>
+        </Container>
+
+        <Container className="text">
+          <Col>
+            <h5 className="text3">
+              Easily keep track of, organise, and manage your household's food!
+              You can simply check what food you have left in your freezer,
+              fridge, and pantry, identify what food you need to use first, plan
+              your meals, create a shopping list, avoid wasteful purchases,
+              reduce food waste, and save a lot of money using lists for your
+              freezer, fridge, and pantry.
+            </h5>
+          </Col>
+        </Container>
+
+        <p className="heh2">Key Features!</p>
+        <Container className="ft">
+          <Row>
+            <Col sm={4}>
+              <img className="image3" src={home_img6} alt="" />
+              <h3 className="feat">
+                Keep track of your food and their expiry dates.
+              </h3>
+            </Col>
+            <Col sm={4}>
+              <img className="image3" src={no_waste} alt="" />
+              <h3 className="feat">
+                Make use of byproducts of food and reduce waste.
+              </h3>
+            </Col>
+            <Col sm={4}>
+              <img className="image3" src={donation} alt="" />
+              <h3 className="feat">
+                Donate excessive food so as to not waste it eventually.
+              </h3>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </>
   );
 }
 
 export default Home;
-
-const Container = styled.div`
-  height: 100vh;
-  max-height: 100vh;
-  background-color: #f9eee2;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: column;
-`;
-
-const Box = styled.div`
-  background-color: #f3d3b7;
-  width: 30vw;
-  position: absolute;
-  margin-left: 20vw;
-  height: 100vh;
-`;
-
-const Circle = styled.div`
-  position: absolute;
-  margin-left: 15vw;
-  margin-top: 7vw;
-  height: ${(props) => (props.small ? "10vw" : props.value)};
-  width: ${(props) => (props.small ? "10vw" : props.value)};
-  border-radius: 50%;
-  border: 5px solid #00000015;
-  z-index: 100;
-  background-color: transparent;
-`;
-
-const ImageContainer = styled.img`
-  position: absolute;
-  height: 10vw;
-  z-index: 101;
-`;
-
-const MainHeading = styled.h1`
-  padding: 0 10%;
-  font-size: 3rem;
-  background: -webkit-linear-gradient(right, #d69d6c, #8e4404);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
-
-const Button = styled.button`
-  margin: 0 15%;
-  padding: 15px 80px;
-  font-size: 1.1rem;
-  background-color: #f3d3b7;
-  box-shadow: 7px 7px 0px 0px rgba(0, 0, 0, 0.9);
-  -webkit-box-shadow: 7px 7px 0px 0px rgba(0, 0, 0, 0.9);
-  -moz-box-shadow: 7px 7px 0px 0px rgba(0, 0, 0, 0.9);
-  margin-top: 20px;
-  text-decoration: none;
-  color: inherit;
-`;

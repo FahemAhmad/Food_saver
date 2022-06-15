@@ -1,6 +1,9 @@
 import axios from "axios";
+import { getCookie } from "./Aurh";
 
 axios.defaults.baseURL = "http://localhost:4000";
+
+axios.defaults.headers.common["Authorization"] = `Bearer ${getCookie("token")}`;
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
@@ -22,4 +25,5 @@ export default {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  patch: axios.patch,
 };

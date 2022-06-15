@@ -43,9 +43,9 @@ const UserProfile = ({ user, food }) => {
               <>
                 <Row key={index}>
                   <img
-                    src={item.ImageSrc}
-                    width={50}
-                    height={50}
+                    src={`http://localhost:4000/${item.ImageSrc}`}
+                    width={100}
+                    height={100}
                     style={{ borderRadius: "50%" }}
                     alt={item.Name}
                   />

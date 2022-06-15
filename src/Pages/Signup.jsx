@@ -1,14 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-import breakpoint from "../Breakpoints";
+
 import * as yup from "yup";
-import Login from "../Assets/login.jpg";
-import { Field, Form, Formik } from "formik";
+
+import { Form, Formik } from "formik";
 import ErrorMessage from "../Components/ErrorMessage";
 import { registerUser } from "../Backend/apiCalls";
-import SelectField from "../Components/SelectField";
+
 import { ToastFailure, ToastSuccess } from "../Components/Toast";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const validationSchema = yup.object().shape({
@@ -37,11 +36,11 @@ function Signup() {
         Name: "",
         Email: "",
         Password: "",
+        CPassword: "",
         Age: "",
         Gender: "",
       }}
       onSubmit={async (values, { resetForm }) => {
-        values.Age = parseInt(values.Age);
         await registerUser(values)
           .then((res) => {
             ToastSuccess("User Registered");
@@ -53,128 +52,93 @@ function Signup() {
           });
       }}
     >
-      {({ errors, touched, handleBlur, handleChange, values }) => (
-        <div className="containerSignUp">
-          <div className="signup-form">
-            <Form>
-              <h2>Sign Up</h2>
-              <p>Please fill in this form to create an account!</p>
-              <hr />
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <span className="fa fa-user"></span>
-                    </span>
-                  </div>
+      {({ errors, touched, handleChange, values }) => (
+        <div>
+          <div className="RegisterPage">
+            <div className="info">
+              <h2 className="title">Reus</h2>
+              <p className="description">
+                Reducing food waste is a delicious way of saving money, helping
+                to feed the world and protect the planet.
+              </p>
+            </div>
+            <Form className="register-add-form">
+              <div className="loginContainer">
+                <div className="regi-form-contro">
+                  <label className="label">Name</label>
                   <input
                     type="text"
-                    className="form-control"
+                    placeholder="Enter your name"
                     name="Name"
-                    placeholder="Name"
                     value={values.Name}
                     onChange={handleChange}
                   />
+                  {errors.Name && touched.Name && (
+                    <ErrorMessage error={errors.Name} />
+                  )}
                 </div>
-                {errors.Name && touched.Name && (
-                  <ErrorMessage error={errors.Name} />
-                )}
-              </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <i className="fa fa-paper-plane"></i>
-                    </span>
-                  </div>
+                <div className="regi-form-contro">
+                  <label className="label">Email</label>
                   <input
                     type="email"
-                    className="form-control"
+                    placeholder="Your email"
                     name="Email"
-                    placeholder="Email Address"
                     value={values.Email}
                     onChange={handleChange}
                   />
+                  {errors.Email && touched.Email && (
+                    <ErrorMessage error={errors.Email} />
+                  )}
                 </div>
-                {errors.Email && touched.Email && (
-                  <ErrorMessage error={errors.Email} />
-                )}
-              </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <i className="fa fa-lock"></i>
-                    </span>
-                  </div>
+                <div className="regi-form-contro">
+                  <label className="label">Password</label>
                   <input
                     type="password"
-                    className="form-control"
-                    name="Password"
                     placeholder="Password"
+                    name="Password"
                     value={values.Password}
                     onChange={handleChange}
                   />
+                  {errors.Password && touched.Password && (
+                    <ErrorMessage error={errors.Password} />
+                  )}
                 </div>
-                {errors.Password && touched.Password && (
-                  <ErrorMessage error={errors.Password} />
-                )}
-              </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <i className="fa fa-lock"></i>
-                      <i className="fa fa-check"></i>
-                    </span>
-                  </div>
+                <div className="regi-form-contro">
+                  <label className="label">Confirm Password</label>
                   <input
                     type="password"
-                    className="form-control"
                     name="CPassword"
                     placeholder="Confirm Password"
                     value={values.CPassword}
                     onChange={handleChange}
                   />
+                  {errors.CPassword && touched.CPassword && (
+                    <ErrorMessage error={errors.CPassword} />
+                  )}
                 </div>
-                {errors.CPassword && touched.CPassword && (
-                  <ErrorMessage error={errors.CPassword} />
-                )}
-              </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <i className="fa fa-calendar-check-o"></i>
-                    </span>
-                  </div>
+                <div className="regi-form-contro">
+                  <label className="label">Age</label>
                   <input
-                    type="text"
-                    className="form-control"
+                    type="number"
+                    min={1}
+                    max={200}
+                    placeholder="Enter Age"
                     name="Age"
-                    placeholder="Age"
-                    required="required"
                     value={values.Age}
                     onChange={handleChange}
                   />
+                  {errors.Age && touched.Age && (
+                    <ErrorMessage error={errors.Age} />
+                  )}
                 </div>
-                {errors.Age && touched.Age && (
-                  <ErrorMessage error={errors.Age} />
-                )}
-              </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <i className="fa fa-genderless"></i>
-                    </span>
-                  </div>
+                <div className="regi-form-contro ">
+                  <label className="label">Gender</label>
+
                   <select
                     type="text"
                     className="form-control"
                     name="Gender"
                     placeholder="Gender"
-                    required="required"
                     onChange={handleChange}
                   >
                     <option value={""}>Select your Gender</option>
@@ -184,21 +148,27 @@ function Signup() {
                       </option>
                     ))}
                   </select>
+                  {errors.Gender && touched.Gender && (
+                    <ErrorMessage error={errors.Gender} />
+                  )}
                 </div>
-                {errors.Gender && touched.Gender && (
-                  <ErrorMessage error={errors.Gender} />
-                )}
-              </div>
 
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary btn-lg">
-                  Sign Up
-                </button>
+                <input
+                  type="submit"
+                  className="butn butn-block"
+                  value="Register"
+                />
+                <span className="go-to">
+                  <div style={{ width: "100%", textAlign: "center" }}>
+                    Have an Account?{" "}
+                    <NavLink to="/sign_in" className="hoverLine go-to-login">
+                      {" "}
+                      Log In{" "}
+                    </NavLink>{" "}
+                  </div>
+                </span>
               </div>
             </Form>
-            <div className="text-center">
-              Already have an account? <a href="/sign_in">Login here</a>
-            </div>
           </div>
         </div>
       )}

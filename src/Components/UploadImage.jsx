@@ -12,8 +12,8 @@ function UploadImage({ setFieldValue, values, name }) {
   };
 
   useEffect(() => {
-    if (values.ImgSrc) setSelectedImage(values.ImgSrc);
-  }, [values.ImgSrc]);
+    if (values.ImageSrc) setSelectedImage(values.ImageSrc);
+  }, [values.ImageSrc]);
 
   return (
     <div className="form-group">

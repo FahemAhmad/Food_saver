@@ -18,6 +18,7 @@ const style = {
 };
 
 function ProductDisplay({ food, title, image, expiry, category }) {
+  console.log("UImage", image);
   const [notify, setNotify] = useState(false);
 
   const handleNotify = () => {
@@ -39,7 +40,7 @@ function ProductDisplay({ food, title, image, expiry, category }) {
                   </div>
                 </div>
                 <img
-                  src={image}
+                  src={`http://localhost:4000/${image}`}
                   className="img-fluid rounded thumbnail-image"
                   alt={title}
                 />

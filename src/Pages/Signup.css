@@ -1,93 +1,163 @@
-.containerSignUp {
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #8d8d8d;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #8d8d8d;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: gray;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-image: "images/Image2.jpg";
+}
+.RegisterPage {
+  display: flex;
+  margin-bottom: -60px;
+  z-index: +1;
+}
+.register-add-form {
+  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-left: 8%;
+  padding-bottom: 10px;
+  width: 30%;
+  height: 60%;
+  border-radius: 43px;
+  background-color: #def3ec !important;
+  box-shadow: 14px 14px 21px #aecbc1, -14px -14px 21px #f0ffff;
+  z-index: +1;
+}
+
+.loginContainer {
+  margin: 30px auto;
+  margin-top: 5px;
+  overflow: auto;
+  padding: 15px;
+}
+
+.butn {
+  display: inline-block;
+  background-color: #000;
   color: #fff;
-  background: #19aa8d;
-  font-family: "Roboto", sans-serif;
-  min-height: 100vh;
-}
-.form-control {
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
   font-size: 15px;
+  font-family: inherit;
 }
-.form-control,
-.form-control:focus,
-.input-group-text {
-  border-color: #e1e1e1;
+
+.butn:focus {
+  outline: none;
 }
-.form-control,
-.btn {
-  border-radius: 3px;
+.butn:hover {
+  color: #5dbc9d;
 }
-.signup-form {
-  width: 400px;
-  margin: 0 auto;
-  padding: 30px 0;
+
+.butn:active {
+  transform: scale(0.98);
 }
-.signup-form form {
-  color: #999;
-  border-radius: 3px;
-  margin-bottom: 15px;
-  background: #fff;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  padding: 30px;
+
+.butn-block {
+  display: block;
+  width: 86%;
+  align-items: center;
+  margin-left: 7%;
 }
-.signup-form h2 {
-  color: #333;
-  font-weight: bold;
-  margin-top: 0;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
 }
-.signup-form hr {
-  margin: 0 -30px 20px;
+
+.regi-form-contro {
+  margin: 10px 20px !important;
 }
-.signup-form .form-group {
-  margin-bottom: 20px;
+
+.regi-form-contro label {
+  display: block;
+  padding-left: 7px;
 }
-.signup-form label {
-  font-weight: normal;
-  font-size: 15px;
+
+.regi-form-contro input {
+  width: 95%;
+  height: 40px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+  border-radius: 10px;
+  border: 1px;
 }
-.signup-form .form-control {
-  min-height: 38px;
-  box-shadow: none !important;
+
+.form-contro-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.signup-form .input-group-addon {
-  max-width: 42px;
+
+.form-contro-check label {
+  flex: 1;
+}
+
+.form-contro-check input {
+  flex: 2;
+  height: 20px;
+}
+
+footer {
+  margin-top: 30px;
   text-align: center;
 }
-.signup-form .btn,
-.signup-form .btn:active {
-  font-size: 16px;
-  font-weight: bold;
-  background: #19aa8d !important;
-  border: none;
-  min-width: 140px;
+.label {
+  font-size: 17px;
+  color: #000;
+  text-align: left;
 }
-.signup-form .btn:hover,
-.signup-form .btn:focus {
-  background: #179b81 !important;
+
+input.form-control.border.no-shadow.no-rounded {
+  top: 8px;
 }
-.signup-form a {
-  color: #fff;
-  text-decoration: underline;
+button.btn.btn-success.no-rounded {
+  margin-top: 2px !important;
+  height: 100%;
+  border-radius: 0px;
 }
-.signup-form a:hover {
-  text-decoration: none;
+input.form-control.border.no-shadow.no-rounded {
+  top: 2px;
+  font-size: 30px;
 }
-.signup-form form a {
-  color: #19aa8d;
-  text-decoration: none;
+.go-to {
+  color: black;
+  font-size: 15px;
+  font-weight: 200;
+  padding-top: 4px;
 }
-.signup-form form a:hover {
-  text-decoration: underline;
+.go-to-login {
+  color: black;
+  font-size: 15px;
+  padding-top: 4px;
+  font-weight: 400;
 }
-.signup-form .fa {
-  font-size: 21px;
+.go-to-login:hover {
+  color: #338a6d;
 }
-.signup-form .fa-paper-plane {
-  font-size: 18px;
+.regi-second-wave {
+  z-index: -1;
+  margin-top: -40%;
 }
-.signup-form .fa-check {
-  color: #fff;
-  left: 17px;
-  top: 18px;
-  font-size: 7px;
-  position: absolute;
+
+.regi-wave {
+  z-index: -1;
+  margin-top: -40px;
 }

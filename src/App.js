@@ -11,6 +11,11 @@ import "@splidejs/react-splide/css";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Details from "./Pages/Details";
+import Navbar from "./Components/Navbar";
+import NotFound from "./Pages/NotFound";
+import Add_Item from "./Pages/AddItem";
+import AddItem from "./Pages/AddItem";
+import Logout from "./Pages/Logout";
 
 function App() {
   return (
@@ -29,12 +34,16 @@ function App() {
       />
 
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign_in" element={<Login />} />
           <Route path="/sign_up" element={<Signup />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/details" element={<Details />} />
+          <Route path="/add_item" element={<AddItem />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>

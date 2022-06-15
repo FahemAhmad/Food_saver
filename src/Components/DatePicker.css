@@ -7,7 +7,7 @@
 
 .react-datepicker-ignore-onclickoutside {
   padding: 10px;
-  background-color: #f9eee2;
+  background-color: #cff2e6;
 }
 
 input {
@@ -20,22 +20,22 @@ input {
 }
 
 .react-datepicker {
-  background-color: #f9eee2 !important;
+  background-color: #cff2e6 !important;
   border: 1px solid #e3e3e3;
 }
 
 .react-datepicker__header {
-  background-color: #f3d3b7 !important;
+  background-color: #114d4d !important;
 }
 
 .react-datepicker__day--selected {
-  background-color: #8e4404 !important;
+  background-color: #114d4d !important;
 }
 
 .react-datepicker__day:hover {
-  background-color: #f3d3b7 !important;
+  background-color: #cff2e6 !important;
 }
 
 .react-datepicker__day--keyboard-selected {
-  background-color: #8e4404 !important;
+  background-color: #114d4d !important;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CategoryItems.css";
+import { BsCalendarDateFill } from "react-icons/bs";
 
 import { QuantityPicker } from "react-qty-picker";
 
@@ -130,6 +131,9 @@ function ItemList({
           <div className="bothNames">
             <p className="itms">Items</p>
             <div className="itms">
+              <BsCalendarDateFill
+                style={{ position: "absolute", marginTop: 10 }}
+              />
               <DatepickerNoForm
                 name="cDate"
                 selected={value}
@@ -137,6 +141,7 @@ function ItemList({
                 title={"Pick date"}
                 touched={touched}
                 onClose={CloseAll}
+                style={{ marginLeft: 20 }}
               />
             </div>
           </div>

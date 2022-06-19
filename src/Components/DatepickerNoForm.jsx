@@ -3,7 +3,13 @@ import DatePicker from "react-datepicker";
 import "./DatePicker.css";
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
-const DatepickerNoForm = ({ selected, onChange, touched, onClose }) => {
+const DatepickerNoForm = ({
+  selected,
+  onChange,
+  touched,
+  onClose,
+  ...props
+}) => {
   return (
     <>
       <Div />
@@ -11,6 +17,7 @@ const DatepickerNoForm = ({ selected, onChange, touched, onClose }) => {
 
       <Div>
         <DatePicker
+          {...props}
           selected={selected}
           onChange={(val) => onChange(val)}
           placeholderText={"Expiry search"}
@@ -36,4 +43,5 @@ export default DatepickerNoForm;
 const Div = styled.div`
   width: 50%;
   display: flex;
+  margin-left: 40px;
 `;

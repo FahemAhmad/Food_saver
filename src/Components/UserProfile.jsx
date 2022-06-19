@@ -1,6 +1,23 @@
 import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import styled from "styled-components";
+import "../Pages/CategoryItems.css";
+import "../Pages/Login.css";
+
+const getExpiryClassName = (expiryDate) => {
+  const oneDayTime = 24 * 60 * 60 * 1000;
+  let curDate = Date.now();
+  let diff = (new Date(expiryDate).getTime() - curDate) / oneDayTime;
+  if (diff < 3) {
+    return "redDate";
+  } else if (diff > 3 && diff < 14) {
+    return "orangeDate";
+  } else if (diff > 14 && diff < 30) {
+    return "yellowDate";
+  } else {
+    return "greenDate";
+  }
+};
 
 const UserProfile = ({ user, food }) => {
   return (
@@ -20,18 +37,69 @@ const UserProfile = ({ user, food }) => {
               width={150}
               height={150}
             />
-            <Heading>Id: {user?.UserID}</Heading>
-            <Line />
-            <Heading>Name: {user?.Name}</Heading>
-            <Line />
-            <Heading>Email:{user?.Email}</Heading>
-            <Line />
-            <Heading>Gender: {user?.Gender}</Heading>
-            <Line />
-            <Heading>Age: {user?.Age}</Heading>
-            <Line />
-            <Heading>Items: {food?.length}</Heading>
-            <Line />
+            <div className="loginContainer">
+              <div className="form-contro ">
+                <label className="label">User ID</label>
+                <input
+                  type="text"
+                  name="Email"
+                  placeholder="Enter Email"
+                  disabled
+                  value={user?.UserID}
+                />
+              </div>
+
+              <div className="form-contro ">
+                <label className="label">Username</label>
+                <input
+                  type="text"
+                  name="Email"
+                  placeholder="Enter Email"
+                  disabled
+                  value={user?.Name}
+                />
+              </div>
+              <div className="form-contro ">
+                <label className="label">Email</label>
+                <input
+                  type="text"
+                  name="Email"
+                  placeholder="Enter Email"
+                  disabled
+                  value={user?.Email}
+                />
+              </div>
+              <div className="form-contro ">
+                <label className="label">Gender</label>
+                <input
+                  type="text"
+                  name="Email"
+                  placeholder="Enter Email"
+                  disabled
+                  value={user?.Gender}
+                />
+              </div>
+              <div className="form-contro ">
+                <label className="label">Age</label>
+                <input
+                  type="text"
+                  name="Email"
+                  placeholder="Enter Email"
+                  disabled
+                  value={user?.Age}
+                />
+              </div>
+              <div className="form-contro ">
+                <label className="label">Items</label>
+                <input
+                  type="text"
+                  name="Email"
+                  placeholder="Enter Email"
+                  disabled
+                  value={food?.length}
+                />
+              </div>
+            </div>
           </Center>
         </TabPanel>
         <TabPanel>
@@ -49,6 +117,20 @@ const UserProfile = ({ user, food }) => {
                     style={{ borderRadius: "50%" }}
                     alt={item.Name}
                   />
+
+                  <h5>
+                    Expiry Date :{" "}
+                    <span className={getExpiryClassName(item.ExpiryDate)}>
+                      {item?.ExpiryDate}
+                    </span>
+                  </h5>
+                  <h5>
+                    Notification Date :{" "}
+                    <span className={getExpiryClassName(item.NotifyDate)}>
+                      {item?.NotifyDate}
+                    </span>
+                  </h5>
+
                   <h5>{item?.Name}</h5>
                 </Row>
                 <Line />
@@ -92,7 +174,8 @@ const Line = styled.hr`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-around;
   width: 100%;
-  align-items: center;
+  max-height: 150px;
 `;

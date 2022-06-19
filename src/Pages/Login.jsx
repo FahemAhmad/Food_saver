@@ -28,7 +28,7 @@ function Login() {
       onSubmit={async (values, { resetForm }) => {
         await loginUser(values)
           .then((res) => {
-            setCookie("token", res.data.Data.token, 1);
+            setCookie("token", res.data.Data.token);
 
             localStorage.setItem("user", JSON.stringify(res?.data?.Data?.data));
             resetForm();

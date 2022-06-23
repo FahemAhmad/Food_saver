@@ -202,6 +202,13 @@ function ItemList({
                 </div>
                 <div className="byProd-butn">
                   <div className="card-buttons">
+                    <img
+                      src={`${item?.barcode}`}
+                      className="barcode"
+                      alt="abcd"
+                      width="120"
+                      height="120"
+                    />
                     <button
                       className="deleteBtn"
                       onClick={() => {

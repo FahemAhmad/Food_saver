@@ -51,6 +51,7 @@ function Inventory() {
     await getfoodItem(id)
       .then((res) => {
         let data = res?.data?.Data?.data;
+        console.log(data);
         setItems(data);
       })
       .catch((err) => {
